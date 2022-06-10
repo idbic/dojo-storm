@@ -1,13 +1,12 @@
-# dojo-storm
-
-
 # DojoStorm
-
+__________________________________________________
 Meet DojoStorm: Your new Jiu Jitsu Gym Manager.
 
 DojoStorm is a fullstack application for Brazilian Jiu Jitsu gyms. 
 
-Think of DojoStorm as a CRM, a Social App and an online store all in one. DojoStorm will give you the ability to see all of your members in one place. With DojoStorm, you will be able to: automate monthly billing, push gym announcements (eg. upcoming seminars or belt promotions), update your schedule and much more.
+Think of DojoStorm as a CRM, a Social App and an online store all in one. DojoStorm will give you the ability to see all of your members in one place, you can upload documents into their user profile, bill them for services, create/edit/delete users etc. 
+
+With DojoStorm, you will be able to: automate monthly billing, push gym announcements (eg. upcoming seminars or belt promotions), update your schedule and much more.
 
 
 DojoStorm boasts an aesthetic social app on the user side. There is a open forum section and the ability to post 
