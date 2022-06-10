@@ -15,6 +15,9 @@ Users will be able to log in and see upcoming events, manage thier monthly payme
 see technique videos posted by you, ask upperbelts questions and finally a fully intergrated e commerce site to allow you
 to sell your gyms merchandise online. 
 __________________________________________________
+
+DojoStorm will offer full CRUD functionality in the FORUM, Google API calendar and Training Session Note features.
+__________________________________________________
 DojoStorm uses google calendar's api so that users can sync your scheduled classes and events right to thier phone calendar app. DojoStorm also handles payment
 through the paypal api. 
 __________________________________________________
