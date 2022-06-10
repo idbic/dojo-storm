@@ -35,6 +35,6 @@ mongoDB
 - [@dbic](https://www.github.com/idbic)
 
 
-## Screenshots
+## Wireframe
 
 ![App Screenshot](./DojoStorm.drawio.png)
