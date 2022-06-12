@@ -13,12 +13,31 @@ const dojoRouter = require('./controllers/dojostorm.js')
 
 
 //////////////////////////////////////////////
-// Index Route
+// Index Routes
 //////////////////////////////////////////////
 app.get('/index', (req, res) => {
     res.render('index')
 })
 
+app.get('/schedule', (req, res) => {
+    res.render('schedule')
+})
+
+app.get('/notes', (req, res) => {
+    res.render('notes')
+})
+
+app.get('/dojoLounge', (req, res) => {
+    res.render('dojoLounge')
+})
+
+app.get('/store', (req, res) => {
+    res.render('store')
+})
+
+app.get('/profile', (req, res) => {
+    res.render('myprofile')
+})
 //////////////////////////////////////////////
 // Server Listener
 //////////////////////////////////////////////
