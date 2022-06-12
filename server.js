@@ -1,21 +1,35 @@
-//require .env file
-// require("dotenv").config()
+//require .env file ran "npm i dotenv --save"
+require("dotenv").config()
 
 //////////////////////////////////////////////
 //setting up express and liquid and all of the variables here
 //////////////////////////////////////////////// 
 const express = require('express')
 const app = require('liquid-express-views')(express())
-const PORT = 2022
+const session = require('express-session')
+//npm i connect-mongo for below
+const MongoStore = require('connect-mongo')
+
+// const PORT = 2022
 const dojoRouter = require('./controllers/dojostorm.js')
+const PORT = process.env.PORT;
+//////////////////////////////////////////////
+// middleware to setup session
+//////////////////////////////////////////////
 
-
-
+app.use(
+    session({
+      secret: process.env.SECRET,
+      store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
+      saveUninitialized: true,
+      resave: false,
+    })
+  );
 
 //////////////////////////////////////////////
 // Index Routes
 //////////////////////////////////////////////
-app.get('/index', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index')
 })
 
@@ -41,7 +55,7 @@ app.get('/profile', (req, res) => {
 //////////////////////////////////////////////
 // Server Listener
 //////////////////////////////////////////////
-// const PORT = process.env.PORT;
+
 app.listen(PORT, () => {
     console.log(`Now Listening on port ${PORT} @dbic`)
 });
