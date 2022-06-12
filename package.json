@@ -23,7 +23,11 @@
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "liquid-express-views": "^1.0.8",
+    "method": "^2.0.0",
+    "method-override": "^3.0.0",
     "mongodb": "^4.7.0",
-    "mongoose": "^6.3.6"
+    "mongoose": "^6.3.6",
+    "morgan": "^1.10.0",
+    "override": "^0.0.1"
   }
 }

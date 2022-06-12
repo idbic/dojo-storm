@@ -5,14 +5,25 @@ require("dotenv").config()
 //setting up express and liquid and all of the variables here
 //////////////////////////////////////////////// 
 const express = require('express')
-const app = require('liquid-express-views')(express())
+const path = require('path')
+const app = require('liquid-express-views')(express(), {root: [path.resolve(__dirname, 'views/')]})
+const mongoose = require('mongoose')
 const session = require('express-session')
-//npm i connect-mongo for below
+const methodOverride = require('method-override')
+const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
-
-// const PORT = 2022
+const PORT = 2022
 const dojoRouter = require('./controllers/dojostorm.js')
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
+/////////////////////////////////////////////////////
+// Middleware
+/////////////////////////////////////////////////////
+app.use(morgan("tiny")); //logging
+app.use(methodOverride("_method")); // override for put and delete requests from forms
+app.use(express.urlencoded({ extended: true })); // parse urlencoded request bodies
+app.use(express.static("public")); // serve files from public statically
+
+
 //////////////////////////////////////////////
 // middleware to setup session
 //////////////////////////////////////////////
@@ -56,7 +67,5 @@ app.get('/profile', (req, res) => {
 // Server Listener
 //////////////////////////////////////////////
 
-app.listen(PORT, () => {
-    console.log(`Now Listening on port ${PORT} @dbic`)
-});
+app.listen(PORT, () => console.log(`Now Listening on port ${PORT} @dbic`));
 
