@@ -1,0 +1,25 @@
+{
+  "name": "dojo-storm",
+  "version": "1.0.0",
+  "description": "__________________________________________________ Meet DojoStorm: Your new Jiu Jitsu Gym Manager. __________________________________________________ DojoStorm is a fullstack application for Brazilian Jiu Jitsu gyms.  __________________________________________________ Think of DojoStorm as a CRM, a Social App and an online store all in one. DojoStorm will give you the ability to see all of your members in one place, you can upload documents into their user profile, bill them for services, create/edit/delete users etc.  __________________________________________________ With DojoStorm, you will be able to: automate monthly billing, push gym announcements (eg. upcoming seminars or belt promotions), update your schedule and much more.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idbic/dojo-storm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/idbic/dojo-storm/issues"
+  },
+  "homepage": "https://github.com/idbic/dojo-storm#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "liquid-express-views": "^1.0.8",
+    "mongoose": "^6.3.6"
+  }
+}
