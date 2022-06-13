@@ -136,7 +136,9 @@ app.get('/notes', (req, res) => {
       allNotes: notes
     })
 })
-
+//////////////////////////////////////////////
+// added a post route for new note
+//////////////////////////////////////////////
 app.post('/notes', (req, res) => {
   notes.push(req.body);
   console.log(req.body)
@@ -151,6 +153,24 @@ app.get('/notes/:id', (req, res) => {
   res.render('noteShow', {
     notes: notes[req.params.id]
   })
+})
+//////////////////////////////////////////////
+// edit routes
+//////////////////////////////////////////////
+app.get('/notes/:id/edit', (req, res) => {
+  res.render(
+      'editnote',
+      {
+          note: notes[req.params.id], 
+          index: req.params.id
+      }
+  )
+})
+
+app.put('/notes/:id', (req, res) => {
+  
+  notes[req.params.id] = req.body
+  res.redirect('/notes')
 })
 
 app.get('/dojoLounge', (req, res) => {

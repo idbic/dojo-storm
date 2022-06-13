@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Edit Note</h1>
+    <form action="/notes/{{ index }}?_method=PUT" method="POST">
+        User: <input type="text" name="user" placeholder="{{notes.user}}">
+        Date: <input type="text" name="date" placeholder="{{notes.date}}">
+        Training Type: <input type="text" name="typeoftraining" placeholder="{{notes.typeoftraining}}">
+        Notes: <input type="text" name="notes" placeholder="{{notes.notes}}">
+        
+        
+        <input type="submit" name="" value="Submit Changes">
+    </form>
+</body>
+</html>
