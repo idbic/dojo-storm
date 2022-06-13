@@ -2,7 +2,7 @@
 // Import Dependencies
 //////////////////////////////////////////////
 const mongoose = require('./connection')
-const notes = require('./notes')
+const Note = require('./notes')
 const db = mongoose.connection
 
 //////////////////////////////////////////////
@@ -20,9 +20,9 @@ const seedNotes = [
 Note.deleteMany({})
       .then((deletedNotes) => {
         // add the starter fruits
-        Fruit.create(seedNotes)
+        Note.create(seedNotes)
           .then((newNotes) => {
-            // log the new fruits to confirm their creation
+            // log the new note to confirm their creation
             console.log(newNotes);
             db.close();
           })

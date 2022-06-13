@@ -15,9 +15,9 @@ const methodOverride = require('method-override')
 const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
 const PORT = 2022
-const dojoRouter = require('./controllers/dojostorm.js')
-const Note = require('./models/notes')
-const User = require('./models/users')
+
+const notes = require('./models/notes')
+
 
 /////////////////////////////////////////////////////
 // Connect mongoose
