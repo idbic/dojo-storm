@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <title>Notes</title>
 </head>
 <body>
-    <h1>Notes will live here</h1>
-    <a href="/home">Go home lil doggie</a>
+    <div class="container"><h1>Notes will live here</h1>
+    {% for notes in allNotes %}
+        <li>
+            <a href="/notes/{{
+                forloop.index0}}">{{ notes.date }} 
+        </li>
+        {% endfor %}
+    <a href="/home">Go home lil doggie</a></div>
 </body>
 </html>

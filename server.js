@@ -14,79 +14,80 @@ const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
 const PORT = 2022
 const dojoRouter = require('./controllers/dojostorm.js')
+const notes = require('./models/notes')
 /////////////////////////////////////////////////////
 // Google Api for schedule view
 /////////////////////////////////////////////////////
-const {google} = require('googleapis')
-const {OAuth2} = google.auth
-const oAuth2Client = new OAuth2('140118733221-m85uffglmisuai7grago37pha6blst3g.apps.googleusercontent.com', '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')
+// const {google} = require('googleapis')
+// const {OAuth2} = google.auth
+// const oAuth2Client = new OAuth2('140118733221-m85uffglmisuai7grago37pha6blst3g.apps.googleusercontent.com', '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')
  
-oAuth2Client.setCredentials({
-    refresh_token: '1//04fhc6dp3L7-TCgYIARAAGAQSNwF-L9Ir9jNX2rcHILZsXLoxhXPoG9DOXa6AJ1nTxIcLpQEuj8CTkGtY2QpPms6o5SQ3seach38'
-})
+// oAuth2Client.setCredentials({
+//     refresh_token: '1//04fhc6dp3L7-TCgYIARAAGAQSNwF-L9Ir9jNX2rcHILZsXLoxhXPoG9DOXa6AJ1nTxIcLpQEuj8CTkGtY2QpPms6o5SQ3seach38'
+// })
 
-// Create a new calender instance.
-const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
+// // Create a new calender instance.
+// const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
 
-// Create a new event start date instance for temp uses in our calendar.
-const eventStartTime = new Date()
-eventStartTime.setDate(eventStartTime.getDay() + 2)
+// // Create a new event start date instance for temp uses in our calendar.
+// const eventStartTime = new Date()
+// eventStartTime.setDate(eventStartTime.getDay() + 2)
 
-// Create a new event end date instance for temp uses in our calendar.
-const eventEndTime = new Date()
-eventEndTime.setDate(eventEndTime.getDay() + 4)
-eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
+// // Create a new event end date instance for temp uses in our calendar.
+// const eventEndTime = new Date()
+// eventEndTime.setDate(eventEndTime.getDay() + 4)
+// eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
 
-// Create a dummy event for temp uses in our calendar
-const event = {
-  summary: `Meeting with David`,
-  location: `3595 California St, San Francisco, CA 94118`,
-  description: `Meet with David to talk about the new client project and how to integrate the calendar for booking.`,
-  colorId: 1,
-  start: {
-    dateTime: eventStartTime,
-    timeZone: 'America/Denver',
-  },
-  end: {
-    dateTime: eventEndTime,
-    timeZone: 'America/Denver',
-  },
-}
+// // Create a dummy event for temp uses in our calendar
+// const event = {
+//   summary: `Meeting with David`,
+//   location: `3595 California St, San Francisco, CA 94118`,
+//   description: `Meet with David to talk about the new client project and how to integrate the calendar for booking.`,
+//   colorId: 1,
+//   start: {
+//     dateTime: eventStartTime,
+//     timeZone: 'America/Denver',
+//   },
+//   end: {
+//     dateTime: eventEndTime,
+//     timeZone: 'America/Denver',
+//   },
+// }
 
-// Check if we a busy and have an event on our calendar for the same time.
-calendar.freebusy.query(
-  {
-    resource: {
-      timeMin: eventStartTime,
-      timeMax: eventEndTime,
-      timeZone: 'America/Denver',
-      items: [{ id: 'primary' }],
-    },
-  },
-  (err, res) => {
-    // Check for errors in our query and log them if they exist.
-    if (err) return console.error('Free Busy Query Error: ', err)
+// // Check if we a busy and have an event on our calendar for the same time.
+// calendar.freebusy.query(
+//   {
+//     resource: {
+//       timeMin: eventStartTime,
+//       timeMax: eventEndTime,
+//       timeZone: 'America/Denver',
+//       items: [{ id: 'primary' }],
+//     },
+//   },
+//   (err, res) => {
+//     // Check for errors in our query and log them if they exist.
+//     if (err) return console.error('Free Busy Query Error: ', err)
 
-    // Create an array of all events on our calendar during that time.
-    const eventArr = res.data.calendars.primary.busy
+//     // Create an array of all events on our calendar during that time.
+//     const eventArr = res.data.calendars.primary.busy
 
-    // Check if event array is empty which means we are not busy
-    if (eventArr.length === 0)
-      // If we are not busy create a new calendar event.
-      return calendar.events.insert(
-        { calendarId: 'primary', resource: event },
-        err => {
-          // Check for errors and log them if they exist.
-          if (err) return console.error('Error Creating Calender Event:', err)
-          // Else log that the event was created.
-          return console.log('Calendar event successfully created.')
-        }
-      )
+//     // Check if event array is empty which means we are not busy
+//     if (eventArr.length === 0)
+//       // If we are not busy create a new calendar event.
+//       return calendar.events.insert(
+//         { calendarId: 'primary', resource: event },
+//         err => {
+//           // Check for errors and log them if they exist.
+//           if (err) return console.error('Error Creating Calender Event:', err)
+//           // Else log that the event was created.
+//           return console.log('Calendar event successfully created.')
+//         }
+//       )
 
-    // If event array is not empty log that we are busy.
-    return console.log(`Sorry I'm busy...`)
-  }
-)
+//     // If event array is not empty log that we are busy.
+//     return console.log(`Sorry I'm busy...`)
+//   }
+// )
 
 
 
@@ -127,9 +128,19 @@ app.get('/home', (req, res) => {
 app.get('/schedule', (req, res) => {
     res.render('schedule')
 })
-
+//////////////////////////////////////////////
+// added a model for notes and started the note show pages
+//////////////////////////////////////////////
 app.get('/notes', (req, res) => {
-    res.render('notes')
+    res.render('notes', {
+      allNotes: notes
+    })
+})
+
+app.get('/notes/:id', (req, res) => {
+  res.render('noteShow', {
+    notes: notes[req.params.id]
+  })
 })
 
 app.get('/dojoLounge', (req, res) => {
