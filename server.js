@@ -137,6 +137,16 @@ app.get('/notes', (req, res) => {
     })
 })
 
+app.post('/notes', (req, res) => {
+  notes.push(req.body);
+  console.log(req.body)
+  res.redirect('/notes')
+})
+
+app.get('/notes/new', (req, res) => {
+  res.render('newnote')
+})
+
 app.get('/notes/:id', (req, res) => {
   res.render('noteShow', {
     notes: notes[req.params.id]
