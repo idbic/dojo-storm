@@ -7,13 +7,25 @@
     <title>Document</title>
 </head>
 <body>
+    <nav class="container-sm">
+        
+        <a href="/home">Home</a>
+        <a href="/notes">Notes</a>
+        <a href="/schedule">Schedule</a>
+        <a href="/dojoLounge">Lounge</a>
+        <a href="/store">Store</a>
+        <a href="/profile">Profile</a>
+        <a href="/">Logout</a>
+   
+    </nav>
+    
     <h1>New Note page</h1>
     <form action="/notes" method="POST">
         User: <input type="text" name="user"><br>
         date: <input type="text" name="date"><br>
         Training Type: <input type="text" name="typeoftraining"><br>
-        Notes: <input type="text" name="notes">
-        <input type="submit" value="create fruit">
+        Notes: <input type="textblock" name="notes" style="height:120px; width:200px">
+        <br><input type="submit" value="create note">
     </form>
 </body>
 </html>

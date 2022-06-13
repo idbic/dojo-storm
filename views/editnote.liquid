@@ -7,6 +7,18 @@
     <title>Document</title>
 </head>
 <body>
+    <nav class="container-sm">
+        
+        <a href="/home">Home</a>
+        <a href="/notes">Notes</a>
+        <a href="/schedule">Schedule</a>
+        <a href="/dojoLounge">Lounge</a>
+        <a href="/store">Store</a>
+        <a href="/profile">Profile</a>
+        <a href="/">Logout</a>
+   
+    </nav>
+    
     <h1>Edit Note</h1>
     <form action="/notes/{{ index }}?_method=PUT" method="POST">
         User: <input type="text" name="user" placeholder="{{notes.user}}">

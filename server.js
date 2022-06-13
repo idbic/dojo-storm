@@ -8,13 +8,49 @@ const express = require('express')
 const path = require('path')
 const app = require('liquid-express-views')(express(), {root: [path.resolve(__dirname, 'views/')]})
 const mongoose = require('mongoose')
+const mongoURI = 'mongodb://localhost/notes'
+const db = mongoose.connection
 const session = require('express-session')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
 const PORT = 2022
 const dojoRouter = require('./controllers/dojostorm.js')
-const notes = require('./models/notes')
+const Note = require('./models/notes')
+const User = require('./models/users')
+
+/////////////////////////////////////////////////////
+// Connect mongoose
+/////////////////////////////////////////////////////
+
+
+mongoose.connect(mongoURI)
+/////////////////////////////////////////////////////
+// Connection error/success Callbacks for various events
+/////////////////////////////////////////////////////
+
+db.on("error", (err) => console.log(err.message + " is mongod not running?"));
+db.on("open", () => console.log("mongo connected: ", mongoURI));
+db.on("close", () => console.log("mongo disconnected"));
+
+// const firstNote = {
+//   date: "June 19th 2022",
+//   typeoftraining: "Gi",
+//   notes: "I left the earth and flying armbarred everyone",
+// }
+// Note.create(firstNote)
+// // if database transaction succeeds
+// .then((note) => {
+//   console.log(note)
+// })
+// // if database transaction fails
+// .catch((error) => {
+//   console.log(error)
+// })
+// // close db connection either way
+// .finally(() => {
+//  db.close()
+// })
 /////////////////////////////////////////////////////
 // Google Api for schedule view
 /////////////////////////////////////////////////////
@@ -100,19 +136,14 @@ app.use(methodOverride("_method")); // override for put and delete requests from
 app.use(express.urlencoded({ extended: true })); // parse urlencoded request bodies
 app.use(express.static("public")); // serve files from public statically
 
-
+app.use(express.json()) // This prepares our api to receive json data from the body of all incoming requests.
 //////////////////////////////////////////////
 // middleware to setup session
 //////////////////////////////////////////////
 
-app.use(
-    session({
-      secret: process.env.SECRET,
-      store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
-      saveUninitialized: true,
-      resave: false,
-    })
-  );
+app.use(express.urlencoded({
+  extended: false
+})) // allows us to view body of a post request
 
 //////////////////////////////////////////////
 // Index Routes
@@ -155,7 +186,16 @@ app.get('/notes/:id', (req, res) => {
   })
 })
 //////////////////////////////////////////////
-// edit routes
+// delete route for notes
+//////////////////////////////////////////////
+
+app.delete('/notes/:id', (req, res) => {
+  notes.splice(req.params.id, 1) // removes item from array
+  res.redirect('/notes') //redirects back to index page
+})
+
+//////////////////////////////////////////////
+// edit routes for notes
 //////////////////////////////////////////////
 app.get('/notes/:id/edit', (req, res) => {
   res.render(
@@ -172,6 +212,10 @@ app.put('/notes/:id', (req, res) => {
   notes[req.params.id] = req.body
   res.redirect('/notes')
 })
+
+//////////////////////////////////////////////
+// end notes routes
+//////////////////////////////////////////////
 
 app.get('/dojoLounge', (req, res) => {
     res.render('dojoLounge')

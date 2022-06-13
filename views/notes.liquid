@@ -9,14 +9,27 @@
     <title>Notes</title>
 </head>
 <body>
+    <nav class="container-sm">
+        
+        <a href="/home">Home</a>
+        <a href="/schedule">Schedule</a>
+        <a href="/dojoLounge">Lounge</a>
+        <a href="/store">Store</a>
+        <a href="/profile">Profile</a>
+        <a href="/">Logout</a>
+   
+    </nav>
     <div class="container"><h1>Notes will live here</h1>
     {% for notes in allNotes %}
         <li>
-            <a href="/notes/{{
-                forloop.index0}}">{{ notes.date }} 
+            <a href="/notes/{{forloop.index0}}">{{ notes.date }} 
         </li>
+        <form action ='/notes/{{ forloop.index0 }}?_method=DELETE'
+            method="POST">
+                <input type="submit" value="delete">  
+            </form>
         {% endfor %}
         <br><a href="/notes/new">New Note</a><br>
-    <a href="/home">Go home lil doggie</a></div>
+    </div>
 </body>
 </html>
