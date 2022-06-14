@@ -313,10 +313,23 @@ console.log(id)
 // delete route for notes
 //////////////////////////////////////////////
 
-app.delete('/notes/:id', (req, res) => {
-  Note.splice(req.params.id, 1) // removes item from array
-  res.redirect('/notes') //redirects back to index page
-})
+
+
+app.delete("/notes/:id", (req, res) => {
+  // get the id from params
+  const id = req.params.id;
+  // delete the note
+  Note.findByIdAndRemove(id)
+    .then((note) => {
+      // redirect to main page after deleting
+      res.redirect("/notes");
+    })
+    // send error as json
+    .catch((error) => {
+      console.log(error);
+      res.json({ error });
+    });
+});
 
 
 //////////////////////////////////////////////

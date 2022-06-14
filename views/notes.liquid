@@ -24,10 +24,7 @@
         <li>
             <a href="/notes/{{ notes._id }}">{{ notes.date }} 
         </li>
-        <form action ='/notes/{{ forloop.index0 }}?_method=DELETE'
-            method="POST">
-                <input type="submit" value="delete">  
-            </form>
+        
         {% endfor %}
         <br><a href="/notes/new">New Note</a><br>
     </div>
