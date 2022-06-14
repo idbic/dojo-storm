@@ -16,7 +16,7 @@ const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
 const PORT = 2022
 
-const notes = require('./models/notes')
+const notes = []
 
 
 /////////////////////////////////////////////////////
@@ -137,10 +137,22 @@ app.use(express.urlencoded({ extended: true })); // parse urlencoded request bod
 app.use(express.static("public")); // serve files from public statically
 
 app.use(express.json()) // This prepares our api to receive json data from the body of all incoming requests.
-//////////////////////////////////////////////
-// middleware to setup session
-//////////////////////////////////////////////
 
+////////////////////////////////////////////////
+// Our Models
+////////////////////////////////////////////////
+// pull schema and model from mongoose
+const { Schema, model } = mongoose;
+
+// make note schema
+const noteSchema = new Schema({
+  date: String,
+  typeoftraining: String,
+  notes: String,
+});
+
+// make note model
+const Note = model("Note", noteSchema);
 app.use(express.urlencoded({
   extended: false
 })) // allows us to view body of a post request
@@ -156,17 +168,49 @@ app.get('/home', (req, res) => {
     res.render('index')
 })
 
+app.get("/notes/seed", (req, res) => {
+  // array of starter notes
+  const seedNotes = [
+    {date: 'that day', typeoftraining: 'gi', notes: 'I jiu jitsued'},
+    {date: 'the days', typeoftraining: 'gi', notes: 'I got sued'},
+    {date: 'these days', typeoftraining: 'gi', notes: 'Arm bar nation'},
+    {date: 'Thursday', typeoftraining: 'gi', notes: 'Really good passing '},
+    {date: 'June 12th 1989', typeoftraining: 'gi', notes: 'Toreando'}
+  ];
+
+  // Delete all notes
+  Note.deleteMany({}).then((data) => {
+    // Seed Starter notes
+    Note.create(seedNotes).then((data) => {
+      // send created notes as response to confirm creation
+      res.json(data);
+    });
+  });
+});
+
 app.get('/schedule', (req, res) => {
     res.render('schedule')
 })
 //////////////////////////////////////////////
 // added a model for notes and started the note show pages
 //////////////////////////////////////////////
-app.get('/notes', (req, res) => {
-    res.render('notes', {
-      allNotes: notes
+// updated note index route with mongoose .then method//
+//////////////////////////////////////////////
+
+app.get("/notes", (req, res) => {
+  // find all the fruits
+  Note.find({})
+    // render a template after they are found
+    .then((seedNotes) => {
+      res.render("notes", { seedNotes });
     })
-})
+    // send error as json if they aren't
+    .catch((error) => {
+      res.json({ error });
+    });
+});
+
+
 //////////////////////////////////////////////
 // added a post route for new note
 //////////////////////////////////////////////

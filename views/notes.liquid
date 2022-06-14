@@ -20,7 +20,7 @@
    
     </nav>
     <div class="container"><h1>Notes will live here</h1>
-    {% for notes in allNotes %}
+    {% for notes in seedNotes %}
         <li>
             <a href="/notes/{{forloop.index0}}">{{ notes.date }} 
         </li>
