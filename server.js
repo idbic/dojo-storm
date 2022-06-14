@@ -14,9 +14,10 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
+const { ObjectId } = require("mongodb")
 const PORT = 2022
 
-const notes = []
+
 
 
 /////////////////////////////////////////////////////
@@ -211,51 +212,67 @@ app.get("/notes", (req, res) => {
 });
 
 
+
+
 //////////////////////////////////////////////
 // added a post route for new note
 //////////////////////////////////////////////
-app.post('/notes', (req, res) => {
-  notes.push(req.body);
-  console.log(req.body)
-  res.redirect('/notes')
-})
+// app.post('/notes', (req, res) => {
+//   Note.push(req.body);
+//   console.log(req.body)
+//   res.redirect('/notes')
+// })
 
-app.get('/notes/new', (req, res) => {
-  res.render('newnote')
-})
+// app.get('/notes/new', (req, res) => {
+//   res.render('newnote')
+// })
 
-app.get('/notes/:id', (req, res) => {
-  res.render('noteShow', {
-    notes: notes[req.params.id]
-  })
-})
+
+// //////////////////////////////////////////////
+// // edit routes for notes
+// //////////////////////////////////////////////
+// app.get('/notes/:id/edit', (req, res) => {
+//   res.render(
+//       'editnote',
+//       {
+//           note: notes[req.params.id], 
+//           index: req.params.id
+//       }
+//   )
+// })
+
+// app.put('/notes/:id', (req, res) => {
+  
+//   notes[req.params.id] = req.body
+//   res.redirect('/notes')
+// })
+
+
+// show route
+app.get("/notes/:id", (req, res) => {
+  // get the id from params
+  const id = req.params.id;
+console.log(id)
+  // find the particular fruit from the database
+  Note.findById(id)
+    .then((note) => {
+      // render the template with the data from the database
+      res.render("noteshow", { note });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.json({ error });
+    });
+});
 //////////////////////////////////////////////
 // delete route for notes
 //////////////////////////////////////////////
 
 app.delete('/notes/:id', (req, res) => {
-  notes.splice(req.params.id, 1) // removes item from array
+  Note.splice(req.params.id, 1) // removes item from array
   res.redirect('/notes') //redirects back to index page
 })
 
-//////////////////////////////////////////////
-// edit routes for notes
-//////////////////////////////////////////////
-app.get('/notes/:id/edit', (req, res) => {
-  res.render(
-      'editnote',
-      {
-          note: notes[req.params.id], 
-          index: req.params.id
-      }
-  )
-})
-
-app.put('/notes/:id', (req, res) => {
-  
-  notes[req.params.id] = req.body
-  res.redirect('/notes')
-})
 
 //////////////////////////////////////////////
 // end notes routes

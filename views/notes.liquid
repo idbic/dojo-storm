@@ -22,7 +22,7 @@
     <div class="container"><h1>Notes will live here</h1>
     {% for notes in seedNotes %}
         <li>
-            <a href="/notes/{{forloop.index0}}">{{ notes.date }} 
+            <a href="/notes/{{ notes._id }}">{{ notes.date }} 
         </li>
         <form action ='/notes/{{ forloop.index0 }}?_method=DELETE'
             method="POST">
@@ -31,5 +31,6 @@
         {% endfor %}
         <br><a href="/notes/new">New Note</a><br>
     </div>
+    
 </body>
 </html>
