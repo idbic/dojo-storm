@@ -226,20 +226,63 @@ app.get("/notes", (req, res) => {
 // app.get('/notes/new', (req, res) => {
 //   res.render('newnote')
 // })
+// create route
+app.post("/notes", (req, res) => {
+  
+  Note.create(req.body)
+    .then((notes) => {
+      // redirect user to index page if successfully created item
+      res.redirect("/notes");
+    })
+    // send error as json
+    .catch((error) => {
+      console.log(error);
+      res.json({ error });
+    });
+});
+
+// new route
+app.get("/notes/new", (req, res) => {
+  res.render("newnote.liquid");
+});
 
 
 // //////////////////////////////////////////////
 // // edit routes for notes
 // //////////////////////////////////////////////
-// app.get('/notes/:id/edit', (req, res) => {
-//   res.render(
-//       'editnote',
-//       {
-//           note: notes[req.params.id], 
-//           index: req.params.id
-//       }
-//   )
-// })
+// edit route
+app.put("/notes/:id", (req, res) => {
+  // get the id from params
+  const id = req.params.id;
+ 
+  Note.findByIdAndUpdate(id, req.body, { new: true })
+    .then((note) => {
+      // redirect to main page after updating
+      res.redirect("/notes");
+    })
+    // send error as json
+    .catch((error) => {
+      console.log(error);
+      res.json({ error });
+    });
+});
+
+app.get("/notes/:id/edit", (req, res) => {
+  // get the id from params
+  const id = req.params.id;
+  // get the notes from the database
+  Note.findById(id)
+    .then((note) => {
+      // render edit page and send note data
+      res.render("editnote.liquid", { note });
+    })
+    // send error as json
+    .catch((error) => {
+      console.log(error);
+      res.json({ error });
+    });
+});
+
 
 // app.put('/notes/:id', (req, res) => {
   
@@ -248,7 +291,9 @@ app.get("/notes", (req, res) => {
 // })
 
 
-// show route
+//////////////////////////////////////////////
+// show route from database!
+//////////////////////////////////////////////
 app.get("/notes/:id", (req, res) => {
   // get the id from params
   const id = req.params.id;

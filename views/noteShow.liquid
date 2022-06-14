@@ -30,6 +30,7 @@
             </h2>
             <h3>{{ note.date }}</h3>
             <h3>{{ note.typeoftraining }}</h3>
+            <h3>{{ note.notes }}</h3>
             <a href="/notes/{{ note._id }}/edit"><button>Edit</button></a>
             <form action="/notes/{{ note._id }}?_method=DELETE" method="POST">
               <input type="submit" value="Delete" />

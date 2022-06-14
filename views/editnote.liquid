@@ -20,8 +20,8 @@
     </nav>
     
     <h1>Edit Note</h1>
-    <form action="/notes/{{ index }}?_method=PUT" method="POST">
-        User: <input type="text" name="user" placeholder="{{notes.user}}">
+    <form action="/notes/{{ note._id }}?_method=PUT" method="POST">
+        
         Date: <input type="text" name="date" placeholder="{{notes.date}}">
         Training Type: <input type="text" name="typeoftraining" placeholder="{{notes.typeoftraining}}">
         Notes: <input type="text" name="notes" placeholder="{{notes.notes}}">
