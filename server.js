@@ -7,51 +7,87 @@ require("dotenv").config()
 const express = require('express')
 const path = require('path')
 const app = require('liquid-express-views')(express(), {root: [path.resolve(__dirname, 'views/')]})
-const mongoose = require('mongoose')
+const mongoose = require('./models/connection')
 const mongoURI = 'mongodb://localhost/notes'
-const db = mongoose.connection
+// const db = mongoose.connection
 const session = require('express-session')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const MongoStore = require('connect-mongo')
 const { ObjectId } = require("mongodb")
-const PORT = 2022
-const Note = require('./models/notes')
+const PORT = process.env.PORT
 
+
+
+
+/////////////////////////////////////////////////////
+// Middleware
+/////////////////////////////////////////////////////
+app.use(morgan("tiny")); //logging
+app.use(methodOverride("_method")); // override for put and delete requests from forms
+app.use(express.urlencoded({ extended: true })); // parse urlencoded request bodies
+app.use(express.static("public")); // serve files from public statically
+
+app.use(express.json()) // This prepares our api to receive json data from the body of all incoming requests.
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
+    saveUninitialized: true,
+    resave: false,
+  })
+);
 const noteRouter = require('./controllers/notes')
+const UserRouter = require("./controllers/users")
+const Note = require('./models/notes')
+app.use("/notes/", noteRouter)
+app.use('/users', UserRouter)
 
-/////////////////////////////////////////////////////
-// Connect mongoose
-/////////////////////////////////////////////////////
+app.use(express.urlencoded({
+  extended: false
+})) // allows us to view body of a post request
+
+//////////////////////////////////////////////
+// Index Routes
+//////////////////////////////////////////////
+app.get("/", (req, res) => {
+  res.render("index.liquid");
+});
 
 
-mongoose.connect(mongoURI)
-/////////////////////////////////////////////////////
-// Connection error/success Callbacks for various events
-/////////////////////////////////////////////////////
+app.get('/home', (req, res) => {
+    res.render('home')
+})
 
-db.on("error", (err) => console.log(err.message + " is mongod not running?"));
-db.on("open", () => console.log("mongo connected: ", mongoURI));
-db.on("close", () => console.log("mongo disconnected"));
+app.get('/signup', (req, res) => {
+  res.render('signup')
+})
 
-// const firstNote = {
-//   date: "June 19th 2022",
-//   typeoftraining: "Gi",
-//   notes: "I left the earth and flying armbarred everyone",
-// }
-// Note.create(firstNote)
-// // if database transaction succeeds
-// .then((note) => {
-//   console.log(note)
-// })
-// // if database transaction fails
-// .catch((error) => {
-//   console.log(error)
-// })
-// // close db connection either way
-// .finally(() => {
-//  db.close()
-// })
+
+
+app.get('/schedule', (req, res) => {
+    res.render('schedule')
+})
+
+
+app.get('/dojoLounge', (req, res) => {
+    res.render('dojoLounge')
+})
+
+app.get('/store', (req, res) => {
+    res.render('store')
+})
+
+app.get('/profile', (req, res) => {
+    res.render('myprofile')
+})
+//////////////////////////////////////////////
+// Server Listener
+//////////////////////////////////////////////
+
+app.listen(PORT, () => console.log(`Now Listening on port ${PORT} @dbic`));
+
 /////////////////////////////////////////////////////
 // Google Api for schedule view
 /////////////////////////////////////////////////////
@@ -125,63 +161,4 @@ db.on("close", () => console.log("mongo disconnected"));
 //     return console.log(`Sorry I'm busy...`)
 //   }
 // )
-
-
-
-// const PORT = process.env.PORT;
-/////////////////////////////////////////////////////
-// Middleware
-/////////////////////////////////////////////////////
-app.use(morgan("tiny")); //logging
-app.use(methodOverride("_method")); // override for put and delete requests from forms
-app.use(express.urlencoded({ extended: true })); // parse urlencoded request bodies
-app.use(express.static("public")); // serve files from public statically
-app.use("/notes/", noteRouter)
-app.use(express.json()) // This prepares our api to receive json data from the body of all incoming requests.
-
-
-
-
-app.use(express.urlencoded({
-  extended: false
-})) // allows us to view body of a post request
-
-//////////////////////////////////////////////
-// Index Routes
-//////////////////////////////////////////////
-app.get('/', (req, res) => {
-    res.render('login')
-})
-
-app.get('/home', (req, res) => {
-    res.render('index')
-})
-
-app.get('/signup', (req, res) => {
-  res.render('signup')
-})
-
-
-
-app.get('/schedule', (req, res) => {
-    res.render('schedule')
-})
-
-
-app.get('/dojoLounge', (req, res) => {
-    res.render('dojoLounge')
-})
-
-app.get('/store', (req, res) => {
-    res.render('store')
-})
-
-app.get('/profile', (req, res) => {
-    res.render('myprofile')
-})
-//////////////////////////////////////////////
-// Server Listener
-//////////////////////////////////////////////
-
-app.listen(PORT, () => console.log(`Now Listening on port ${PORT} @dbic`));
 

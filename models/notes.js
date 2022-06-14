@@ -7,9 +7,11 @@ const model = mongoose.model
 //////////////////////////////////////////////
 const noteSchema = new Schema(
     {
+    
     date: String,
     typeoftraining: String,
     notes: String,
+    username: String
 }, 
 {timestamps: true }
 )

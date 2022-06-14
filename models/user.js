@@ -15,7 +15,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
 });
 
-// make fruit model
+// make user model
 const User = model("User", userSchema);
 
 ///////////////////////////////////////////////////

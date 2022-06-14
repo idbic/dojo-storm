@@ -10,57 +10,50 @@ const router = express.Router()
 //routes//
 
 ////////////////////////////////////////
-// Router Middleware
+//Router Middleware
 ////////////////////////////////////////
-// Authorization Middleware
-// router.use((req, res, next) => {
-//   if (req.session.loggedIn) {
-//     next();
-//   } else {
-//     res.redirect("/login");
-//   }
-// });
-  
-router.get("/seed", (req, res) => {
-  // array of starter notes
-  const seedNotes = [
-    {date: 'that day', typeoftraining: 'gi', notes: 'I jiu jitsued'},
-    {date: 'the days', typeoftraining: 'gi', notes: 'I got sued'},
-    {date: 'these days', typeoftraining: 'gi', notes: 'Arm bar nation'},
-    {date: 'Thursday', typeoftraining: 'gi', notes: 'Really good passing '},
-    {date: 'June 12th 1989', typeoftraining: 'gi', notes: 'Toreando'}
-  ];
-
-  // Delete all notes
-  Note.deleteMany({}).then((data) => {
-    // Seed Starter notes
-    Note.create(seedNotes).then((data) => {
-      // send created notes as response to confirm creation
-      res.json(data);
-    });
-  });
+//Authorization Middleware
+router.use((req, res, next) => {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
 });
+  
+
+
+ 
 
 // index route
 
+// index route
 router.get("/", (req, res) => {
-  // find all the fruits
-  Note.find({})
+  // find all the notes
+  Note.find({ username: req.session.username })
     // render a template after they are found
-    .then((seedNotes) => {
-      res.render("notes", { seedNotes });
+    .then((notes) => {
+      console.log(notes);
+      res.render("notes", { notes });
     })
     // send error as json if they aren't
     .catch((error) => {
+      console.log(error);
       res.json({ error });
     });
 });
 
 
+
 // create route
+
 router.post("/", (req, res) => {
-  
+ 
+  // add username to req.body to track related user
+  req.body.username = req.session.username;
+  // create the new note
   Note.create(req.body)
+  
     .then((notes) => {
       // redirect user to index page if successfully created item
       res.redirect("/notes");

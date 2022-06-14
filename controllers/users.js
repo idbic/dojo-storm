@@ -10,83 +10,98 @@ const bcrypt = require("bcryptjs");
 /////////////////////////////////////////
 const router = express.Router();
 
+
 /////////////////////////////////////////
 // Routes
 /////////////////////////////////////////
 
 // The Signup Routes (Get => form, post => submit form)
 router.get("/signup", (req, res) => {
-  res.render("signup.liquid");
+  res.render("users/signup.liquid");
 });
 
-
-
 router.post("/signup", async (req, res) => {
-    // encrypt password
-    req.body.password = await bcrypt.hash(
-      req.body.password,
-      await bcrypt.genSalt(10)
-    );
-    // create the new user
-    User.create(req.body)
-      .then((user) => {
-        // redirect to login page
-        res.redirect("/login");
-      })
-      .catch((error) => {
-        // send error as json
-        console.log(error);
-        res.json({ error });
-      });
-      
-  });
-  
+  // encrypt password
+  req.body.password = await bcrypt.hash(
+    req.body.password,
+    await bcrypt.genSalt(10)
+  );
+  // create the new user
+  User.create(req.body)
+    .then((user) => {
+      // redirect to login page
+      res.redirect("/users/login");
+    })
+    .catch((error) => {
+      // send error as json
+      console.log(error);
+      res.json({ error });
+    });
+});
+
 
 // The login Routes (Get => form, post => submit form)
 router.get("/login", (req, res) => {
-  res.render("login.liquid");
+  res.render("users/login.liquid");
 });
 
+
+
 router.post("/login", async (req, res) => {
-    // get the data from the request body
-    const { username, password } = req.body;
-    // search for the user
-    User.findOne({ username })
-      .then(async (users) => {
-        // check if user exists
-        if (users) {
-          // compare password
-          const result = await bcrypt.compare(password, users.password);
-          if (result) {
-            // store some properties in the session object
-            req.session.username = username;
-            req.session.loggedIn = true;
-            // redirect to home page if successful
-            res.redirect("/home");
-          } else {
-            // error if password doesn't match
-            res.json({ error: "password doesn't match" });
-          }
+  // get the data from the request body
+  
+  const { username, password } = req.body;
+  // search for the user
+  console.log(req.body)
+  User.findOne({username})
+    .then(async (user) => {
+      // check if user exists
+      if (user) {
+        // compare password
+        const result = await bcrypt.compare(password, user.password);
+        if (result) {
+          // store some properties in the session object
+          
+          console.log(req.session)
+          req.session.username = username
+          req.session.loggedIn = true
+          // redirect to home page if successful
+          res.redirect("/notes");
         } else {
-          // send error if user doesn't exist
-          res.json({ error: "user doesn't exist" });
+          // error if password doesn't match
+          res.json({ error: "password doesn't match" });
         }
-      })
-      .catch((error) => {
-        // send error as json
-        console.log(error);
-        res.json({ error });
-      });
-  });
-  
-  
-  router.get("/logout", (req, res) => {
-    // destroy session and redirect to main page
-    req.session.destroy((err) => {
-      res.redirect("/");
+      } else {
+        // send error if user doesn't exist
+        res.json({ error: "user doesn't exist" });
+      }
+    })
+    .catch((error) => {
+      // send error as json
+      console.log(error, "what the fuck");
+      res.json({ error });
     });
+});
+
+/////////////////////////////////////////
+// Authorization Middleware
+/////////////////////////////////////////
+
+router.use((req, res, next) => {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect("/users/login");
+  }
+});
+
+router.get("/logout", (req, res) => {
+  // destroy session and redirect to main page
+  req.session.destroy((err) => {
+    res.redirect("/");
   });
-  
+});
+
 
 //////////////////////////////////////////
 // Export the Router
