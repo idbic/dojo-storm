@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
-    <style>
 
 
 body{
     text-align: center;
-        
+    background-color: red !important;    
 } 
 
 
@@ -124,33 +116,3 @@ body{
     grid-column-end: 6;
     
  }
-
-    </style>
-    
-    <title>DojoStorm</title>
-</head>
-<body>
-    <nav class="container-sm">
-        <a href="/schedule" class="btn btn-outline">Schedule</a>
-        <a href="/notes" class="btn btn-outline">Notes</a>
-        <a href="/dojoLounge" class="btn btn-outline">Lounge</a>
-        <a href="/store" class="btn btn-outline">Store</a>
-        <a href="/profile" class="btn btn-outline">Profile</a>
-        <a href="/" class="btn btn-outline">Logout</a>
-        <a href="/user/logout"><button>Logout</button></a>
-
-   
-    </nav>
-    <h1> Welcome to the Dojo </h1>
-    <div class="container">
-    
-        <div class="item-0"><img src="https://d2779tscntxxsw.cloudfront.net/45272df72d96b1452e992831455e382b315932d733.png" alt=""></div>
-        
-
-    </div>
-    <h2>This will be all of the news and updates for the gym!</h2>
-    <h3>"Damn, DojoStorm is fucking rad bro!"<br>"I know man, I know..."</h3>
-    <img src="https://d2779tscntxxsw.cloudfront.net/45272df72d96b1452e992831455e382b315932d733.png" alt=""></div>
-    
-</body>
-</html>

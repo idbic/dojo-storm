@@ -24,9 +24,21 @@ router.get("/", (req, res) => {
       });
   });
 
-router.get('/:id', (req, res) => {
-    res.send('show pages')
-}) 
+  router.get("/:id", (req, res) => {
+    
+    const id = req.params.id;
+  console.log(id, 'badoogaler')
+    
+    Product.findById(id)
+      .then((product) => {
+        
+        res.render("./store/product", { product });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.json({ error });
+      });
+  });
 
 
 
