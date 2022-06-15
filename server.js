@@ -41,9 +41,11 @@ app.use(
 const noteRouter = require('./controllers/notes')
 const UserRouter = require("./controllers/users")
 const Note = require('./models/notes')
+const Product = require('./models/products')
+const ProductRouter = require('./controllers/products')
 app.use("/notes/", noteRouter)
 app.use('/users', UserRouter)
-
+app.use('/store', ProductRouter)
 app.use(express.urlencoded({
   extended: false
 })) // allows us to view body of a post request
@@ -75,9 +77,6 @@ app.get('/dojoLounge', (req, res) => {
     res.render('dojoLounge')
 })
 
-app.get('/store', (req, res) => {
-    res.render('store')
-})
 
 app.get('/profile', (req, res) => {
     res.render('myprofile')
