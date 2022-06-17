@@ -30,6 +30,20 @@ Node.js
 express
 liquid html 
 mongoDB
+mongoose
+
+__________________________________________________
+
+current version announcements: 
+
+I hit the minimum viable requirements for the project but not for what I want this to be.
+This is a full CRUD app that is connected to a database and will be deployed eventually. 
+
+-Road Blocks: I was able to fetch api data and see the data console logged, but unable to store/ use that data. I spent way too many hours on this part alone. I used two days learning how to not use the apis. 
+
+-I do not have a functional cart yet. 
+
+-I spent so much time on the api that I did nothing with the social aspect of the page. This will be added later. 
 
 
 
