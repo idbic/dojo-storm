@@ -4,6 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            text-align: center !important;
+            font-family: Arial, Helvetica, sans-serif;
+            color: black !important;
+            
+          }
+          a{
+            text-decoration: none;
+            color: black !important;
+    
+          }
+          .navs{
+            color: black !important:
+          }
+          li {
+          list-style: none;
+        }
+        ol {
+          list-style: none;
+        }
+        input{
+            display: block;
+            margin-left: 40% !important;
+        }
+        .notes{
+        width: 250px !important;
+        }
+        .button{
+            margin-left: 45% !important;
+            background-color: white;
+            border-radius: 10px;
+        }
+      </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <title>Document</title>
 </head>
@@ -25,8 +59,8 @@
         
         date: <input type="text" name="date"><br>
         Training Type: <input type="text" name="typeoftraining"><br>
-        Notes: <input type="textblock" name="notes" style="height:120px; width:200px">
-        <br><input type="submit" value="create note">
+        Notes: <input type="textblock" name="notes" class='notes' style="height:120px; width:200px">
+        <br><input type="submit" class="button" value="create note">
     </form>
 </body>
 </html>

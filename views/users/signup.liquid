@@ -1,14 +1,70 @@
-{% layout "layout.liquid" %} {% block content %}
-<div>
-  <form action="/users/signup" method="post">
-    <fieldset>
-      <legend>New User</legend>
-      <label>USERNAME: <input type="text" name="username" required /> </label>
-      <label
-        >PASSWORD: <input type="password" name="password" required />
-      </label>
-      <input type="submit" value="Create Account" />
-    </fieldset>
-  </form>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+     div{
+      display:block;
+      
+    }
+    label{
+      display: block;
+    }
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+    input{
+      border-radius: 10px;
+      background-color: white;
+      display: block;
+      width: 250px;
+      
+    }
+    legend{
+      font-size: xx-large;
+    }
+    fieldset{
+      border: none;
+      text-align: center;
+      width: 250px;
+      margin-left: 37%;
+      
+      
+    }
+    a{
+        text-decoration: none;
+        color: black !important;
+
+      }
+    .button{
+      height: 45px;
+      width: 250px;
+      margin-left: 4px;
+    }
+    form{
+      text-align: center;
+    }
+    
+  </style>
+  <title>Sign In/Up</title>
+</head>
+<body>
+  <img src="https://i.postimg.cc/PrRQYJB4/Dojo-Storm.png" alt="">
+  <div>
+    <form action="/users/signup" method="post">
+      <fieldset>
+        <legend>Create Account</legend>
+        <label> <input type="text" name="username" placeholder="username"required /> </label>
+        <label
+          > <input type="password" name="password" placeholder="password" required />
+        </label>
+        <input type="submit" value="Create Account" class="button"/>
+      </fieldset>
+    </form>
+    <a href="/">Back</a>
+  </div>
+</body>
+</html>

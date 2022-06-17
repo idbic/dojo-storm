@@ -12,6 +12,7 @@
 
 body{
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
     
 } 
 img{
@@ -26,7 +27,14 @@ img:hover{
     transition: 200ms;
 
 }
-
+a:visited{
+    color: black !important;
+}
+a{
+    color: black;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 .btn-outline {
   color: #4fbfa8;
@@ -124,7 +132,17 @@ grid-row-gap: 50px;
 
 </head>
 <body>
-
+    <nav class="container-sm">
+        
+        <a href="/home">Home</a>
+        
+        <a href="/schedule">Schedule</a>
+        
+        <a href="/store">Store</a>
+        
+        <a href="/">Logout</a>
+   
+    </nav>
     <h1>Store</h1>
 
 
